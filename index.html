@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taste Engine: an agent skill for websites that don't look AI-made</title>
+  <meta name="description"
+    content="A skill for your coding agent that studies real award-winning sites, rolls random design constraints and builds an original website, not another template.">
+  <meta property="og:title" content="Taste Engine: an agent skill for websites that don't look AI-made">
+  <meta property="og:description"
+    content="Your AI builds fine websites. They all look the same. Give your agent taste.">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <!-- CDNs for GSAP and Lenis -->
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.9/dist/lenis.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+  <!-- Print Registration Marks (Zine Craft) -->
+  <div class="registration-mark top-left">+ 01 / REG</div>
+  <div class="registration-mark top-right">+ 02 / SEED</div>
+  <div class="registration-mark bottom-left">+ 03 / DIE</div>
+  <div class="registration-mark bottom-right">+ 04 / PROOF</div>
+
+  <!-- Background Interactive Canvas -->
+  <canvas id="bg-canvas"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 1; opacity: 0.6;"></canvas>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="logo-block">
+        <div class="interactive-dice-logo" title="Click to roll dice!">⚄</div>
+        <span>Taste Engine</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="how-it-works.html" class="nav-link">How it works</a></li>
+        <li><a href="docs.html" class="nav-link">Docs</a></li>
+        <li><a href="install.html" class="nav-link">Install</a></li>
+        <li><a href="https://github.com/lakshya1282/taste-engine" class="nav-link" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="install.html" class="btn btn-primary">Get the skill</a></li>
+      </ul>
+
+      <button class="mobile-nav-toggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Spatial Zone Radar HUD -->
+  <div class="spatial-hud" id="spatial-hud" aria-live="polite">
+    <div class="hud-indicator">
+      <div class="hud-radar-screen">
+        <div class="hud-radar-blip"></div>
+      </div>
+      <div>
+        <span style="color: var(--color-ink-faint); margin-right: 4px;">LOC:</span>
+        <span class="hud-zone-title" id="hud-zone-name">COMMAND DECK</span>
+      </div>
+    </div>
+    <div class="hud-zone-selector">
+      <button class="hud-pill active" data-target-zone="zone-hero" title="Zone 01: Hero">Z1</button>
+      <button class="hud-pill" data-target-zone="zone-problem" title="Zone 02: Problem">Z2</button>
+      <button class="hud-pill" data-target-zone="zone-pipeline" title="Zone 03: Engine">Z3</button>
+      <button class="hud-pill" data-target-zone="zone-proof" title="Zone 04: Proof">Z4</button>
+    </div>
+  </div>
+
+  <main style="position: relative; z-index: 2;">
+    <!-- ZONE 01: COMMAND DECK (Hero Viewport - Max 5 elements rule) -->
+    <section class="section-hero" data-zone="zone-hero" data-zone-name="COMMAND DECK [01]">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="hero-header-badge">
+              <span class="zone-badge"><span class="dot"></span> SECTOR 01 : COMMAND DECK</span>
+              <span class="marker-highlight">Stop shipping AI templates.</span>
+            </div>
+
+            <h1 class="text-hero hero-h1">
+              Your AI builds fine websites.<br>
+              <span style="color: var(--color-accent); text-decoration: underline wavy var(--color-border-heavy);">They
+                all look the same.</span>
+            </h1>
+
+            <p class="hero-sub">
+              Taste Engine is a skill for your coding agent. It studies a real award-winning site, rolls random design
+              constraints, and builds something that doesn’t look like a template.
+            </p>
+
+            <div class="hero-actions">
+              <a href="install.html" class="btn btn-primary" style="padding: 13px 28px; font-size: 1rem;">
+                <span>Install the skill</span>
+                <span style="font-family: var(--font-code);">→</span>
+              </a>
+              <a href="how-it-works.html" class="btn btn-secondary" style="padding: 13px 24px;">See how it works</a>
+            </div>
+
+            <div class="hero-micro">
+              <span>One SKILL.md file.</span>
+              <span>•</span>
+              <span>No account.</span>
+              <span>•</span>
+              <span>Works with agents that support Agent Skills (Antigravity IDE, Claude Code).</span>
+            </div>
+
+            <!-- Live Calibration Chamber -->
+            <div class="hero-calibration-panel">
+              <div class="calibration-bar">
+                <span>TASTE ENGINE CALIBRATION RIG // SEED STUDY</span>
+                <span style="color: var(--color-accent);">STATUS: ARMED</span>
+              </div>
+              <div class="calibration-content">
+                <div class="calibration-metric">
+                  <div class="calibration-label">Active Seed</div>
+                  <div class="calibration-value">Agrumea Farm (Studio K95)</div>
+                </div>
+                <div class="calibration-metric">
+                  <div class="calibration-label">Inherited Anchors</div>
+                  <div class="calibration-value">Motion, Color Relations, Mechanics</div>
+                </div>
+                <div class="calibration-metric">
+                  <div class="calibration-label">Mutated Constraint (Click ⚄ to roll)</div>
+                  <div class="calibration-value" id="live-dice-output" style="transition: color 0.3s;">Palette: Electric
+                    Vermilion on Slate</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ZONE 02: THE PROBLEM (You've Seen This Site Before) -->
+    <section class="section-problem" data-zone="zone-problem" data-zone-name="SLOP AUTOPSY [02]">
+      <div class="container">
+        <div class="problem-grid">
+          <div class="problem-text">
+            <span class="zone-badge" style="margin-bottom: 1.25rem;"><span class="dot"></span> THE PROBLEM</span>
+            <h2 class="text-title-1">You’ve seen this site before.</h2>
+            <p class="problem-body-1">
+              A dark background. A gold accent. A serif headline with a wide sans word next to it. Tiny monospace
+              labels. A fake clock. Three big numbers nobody measured. One stock photo in a box.
+            </p>
+            <p class="problem-body-2">
+              It isn’t bad. It’s just the average of the internet. That’s what an AI gives you when nobody tells it what
+              to avoid.
+            </p>
+            <div class="pull-quote">
+              Same prompt. Same face. Every time.
+            </div>
+            <p class="text-muted" style="font-size: 0.95rem;">
+              When models choose the most probable next token in CSS, they choose the exact same design clichés. Taste
+              Engine breaks that loop with measured seeds and forced random mutations.
+            </p>
+          </div>
+
+          <!-- Slop Autopsy Visual Plate -->
+          <div class="slop-autopsy-card">
+            <div class="slop-card-header">
+              <span>DIAGNOSIS: SECOND-GEN AI SLOP DETECTED</span>
+              <span class="slop-status-badge">CLICHÉ INDEX: 100%</span>
+            </div>
+            <div class="slop-mockup-body">
+              <div class="slop-annotation anno-1">← Serif + wide sans pairing!</div>
+              <div class="slop-annotation anno-2">← 3 fake vanity metrics!</div>
+
+              <div style="font-family: var(--font-code); font-size: 10px; color: #64748b; margin-bottom: 8px;">// LAT:
+                37.7749° N, LONG: 122.4194° W</div>
+              <div class="slop-headline">Elevate Your <span>Sanctuary</span></div>
+              <div style="font-size: 12px; color: #94a3b8; max-width: 320px; margin-bottom: 14px;">Next-generation
+                seamless solutions meticulously crafted for elite teams.</div>
+
+              <div class="slop-fake-stats">
+                <div class="slop-stat-item">
+                  <div class="slop-stat-num">99.8%</div>
+                  <div class="slop-stat-label">UPTIME CLAIM</div>
+                </div>
+                <div class="slop-stat-item">
+                  <div class="slop-stat-num">10X</div>
+                  <div class="slop-stat-label">PRODUCTIVITY</div>
+                </div>
+                <div class="slop-stat-item">
+                  <div class="slop-stat-num">24/7</div>
+                  <div class="slop-stat-label">SUPPORT</div>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 8px; justify-content: center;">
+                <div
+                  style="background: #e5c158; color: #000; font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 4px;">
+                  Get Started</div>
+                <div
+                  style="border: 1px solid #475569; color: #fff; font-size: 11px; padding: 6px 14px; border-radius: 4px;">
+                  Book Demo</div>
+              </div>
+            </div>
+            <div
+              style="background: #141920; padding: 10px 14px; font-size: 11px; font-family: var(--font-code); color: var(--color-accent); border-top: 1px solid #28313e;">
+              ✕ FAIL: Fails similarity gate, slop scan (-8 points). Banned outright by Taste Engine.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ZONE 03: PIPELINE & HOW IT WORKS (Study / Roll / Build) -->
+    <section class="section-steps" data-zone="zone-pipeline" data-zone-name="THE ENGINE [03]">
+      <div class="container">
+        <div style="text-align: center; max-width: 720px; margin: 0 auto;">
+          <span class="zone-badge"><span class="dot"></span> HOW IT WORKS IN THREE STEPS</span>
+          <h2 class="text-title-1" style="margin-top: 1rem;">From blank prompt to award-level craft.</h2>
+          <p class="text-body-lg text-muted">A repeatable pipeline that forces original ideas before a single line of
+            CSS is written.</p>
+        </div>
+
+        <div class="steps-grid">
+          <!-- Step 1 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-number">01</span>
+              <div class="step-icon">👁</div>
+            </div>
+            <h3 class="step-title">Study.</h3>
+            <p class="step-desc">
+              Your agent opens a randomly picked award-winning site and measures it: real fonts, colors, easing curves,
+              scroll behavior, interactions. It writes everything into a <code class="code-token">design.md</code>.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-card" style="border-color: var(--color-accent);">
+            <div class="step-header">
+              <span class="step-number" style="color: var(--color-accent);">02</span>
+              <div class="step-icon" style="background: var(--color-accent); color: #fff;">⚄</div>
+            </div>
+            <h3 class="step-title">Roll.</h3>
+            <p class="step-desc">
+              Dice decide the background, palette logic, type personality, layout skeleton, a motion signature and one
+              hard constraint. No "I like this one" allowed.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-number">03</span>
+              <div class="step-icon">⚡</div>
+            </div>
+            <h3 class="step-title">Build.</h3>
+            <p class="step-desc">
+              Your idea gets a concept first, then a clean-room build from the design system. Gates check that it's
+              original and not generic before it ships.
+            </p>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2.5rem;">
+          <a href="how-it-works.html" class="btn btn-secondary">
+            <span>See the full 10-step pipeline</span>
+            <span style="font-family: var(--font-code);">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ZONE 04: WHAT YOU GET (Outputs & Artifacts) -->
+    <section class="section-outputs" data-zone="zone-proof" data-zone-name="SPEC LAB [04]">
+      <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <span class="zone-badge"><span class="dot"></span> ARTIFACTS & DELIVERABLES</span>
+            <h2 class="text-title-1" style="margin-top: 0.75rem;">What you get in every run.</h2>
+          </div>
+          <div style="font-family: var(--font-code); font-size: var(--text-small); color: var(--color-ink-muted);">
+            Location: <code class="code-token">your-project/design/</code>
+          </div>
+        </div>
+
+        <div class="outputs-table-wrap">
+          <table class="outputs-table">
+            <thead>
+              <tr>
+                <th>Artifact</th>
+                <th>Description</th>
+                <th>Craft Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code class="code-token">A working site</code></td>
+                <td>Clean HTML, CSS, JS previewed in the real browser at desktop (1440px) and mobile (390px).</td>
+                <td>Production ready, accessible, zero slop fingerprints.</td>
+              </tr>
+              <tr>
+                <td><code class="code-token">design/design.md</code></td>
+                <td>The seed site’s full design document: colors, type table, layout hierarchy, and complete motion
+                  catalog.</td>
+                <td>Concrete measured data (easings, hexes, staggers) instead of memory guesses.</td>
+              </tr>
+              <tr>
+                <td><code class="code-token">design/tokens.md</code></td>
+                <td>Your own project design system with CSS custom properties, fonts, surfaces, and motion tokens.</td>
+                <td>Clean-room consistency across all pages and components.</td>
+              </tr>
+              <tr>
+                <td><code class="code-token">design/direction.md</code></td>
+                <td>The Direction Card, concept statement, dice results, and what was inherited vs mutated.</td>
+                <td>Explicit proof of originality and divergence from the seed.</td>
+              </tr>
+              <tr>
+                <td><code class="code-token">design/critique.md</code></td>
+                <td>Gate results (Similarity gate, Slop scan, Reference parity) and score out of 40.</td>
+                <td>Hostile art director audit before shipping.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- BEFORE / AFTER SLOT -->
+      <section class="section-comparison" data-zone="zone-proof" data-zone-name="PROOF OF CRAFT">
+        <div class="container">
+          <div style="text-align: center; max-width: 680px; margin: 0 auto;">
+            <span class="zone-badge"><span class="dot"></span> PROOF OF CRAFT</span>
+            <h2 class="text-title-1" style="margin-top: 1rem;">Same prompt. Two runs.</h2>
+            <p class="text-body text-muted">See the difference when an agent stops guessing and starts measuring.</p>
+          </div>
+
+          <div class="comparison-grid">
+            <!-- Left: Default Agent Output (Before) -->
+            <div class="comparison-card">
+              <div class="comparison-header">
+                <span>RUN A: DEFAULT AGENT OUTPUT</span>
+                <span style="color: #94a3b8;">GENERIC AI TEMPLATE</span>
+              </div>
+                <div class="comparison-slot default-output" title="Click to view full screenshot">
+                  <picture>
+                    <source srcset="images/run-a-before.webp" type="image/webp">
+                    <img src="images/run-a-before.png"
+                      alt="Run A: Default Agent Output — Dark background, gold serif headline, arbitrary metrics, and stock photo trapped in a box"
+                      class="comparison-img" loading="lazy" />
+                  </picture>
+                  <div class="comparison-zoom-hint">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                    <span>Click to Expand</span>
+                  </div>
+                </div>
+                <div class="comparison-caption">
+                  <strong>DEFAULT AGENT:</strong> Near-black background, gold serif headline (<em>"Monoliths in Silence
+                    &amp; Light"</em>), arbitrary metrics, fake coordinates, and stock photo trapped in a box.
+                </div>
+              </div>
+
+              <!-- Right: Taste Engine Output (After) -->
+              <div class="comparison-card after">
+                <div class="comparison-header">
+                  <span>RUN B: TASTE ENGINE OUTPUT</span>
+                  <span style="color: #fff;">AWWWARDS-LEVEL CRAFT</span>
+                </div>
+                  <div class="comparison-slot taste-output" title="Click to view full screenshot">
+                    <picture>
+                      <source srcset="images/run-b-after.webp" type="image/webp">
+                      <img src="images/run-b-after.png"
+                        alt="Run B: Taste Engine Output — Vernacular architectural monoliths with full viewport hero, frosted pill nav, and bespoke typography"
+                        class="comparison-img" loading="lazy" />
+                    </picture>
+                    <div class="comparison-zoom-hint">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                      </svg>
+                      <span>Click to Expand</span>
+                    </div>
+                  </div>
+                  <div class="comparison-caption">
+                    <strong>TASTE ENGINE:</strong> Measured <em>"Vernacular"</em> direction, full-bleed atmospheric
+                    viewport hero, frosted glass navigation pill, and bespoke architectural typography.
+                  </div>
+                </div>
+              </div>
+
+              <div class="comparison-note text-center" style="text-align: center;">
+                Note: Both made from the same one-line brief:
+                <code>"Landing page for an ultra-luxury monolithic architectural studio."</code>
+              </div>
+            </div>
+      </section>
+
+      <!-- WHY IT'S DIFFERENT -->
+      <section class="section-why">
+        <div class="container">
+          <div>
+            <span class="zone-badge"><span class="dot"></span> ADVANTAGES</span>
+            <h2 class="text-title-1" style="margin-top: 0.75rem;">Why it’s different.</h2>
+          </div>
+
+          <div class="why-grid">
+            <div class="why-item">
+              <h3 class="why-title">It measures, it doesn’t guess.</h3>
+              <p class="why-desc">Fonts, colors, easing curves and scroll animations come directly from the page itself
+                using live console queries.</p>
+            </div>
+            <div class="why-item">
+              <h3 class="why-title">It uses randomness on purpose.</h3>
+              <p class="why-desc">Two runs on similar briefs don’t converge into the same layout. Forced mutation dice
+                prevent creative collapse.</p>
+            </div>
+            <div class="why-item">
+              <h3 class="why-title">It makes you pick an idea first.</h3>
+              <p class="why-desc">The first two ideas are burned immediately as predictable slop. Concept and metaphor
+                precede visual styling.</p>
+            </div>
+            <div class="why-item">
+              <h3 class="why-title">It checks itself.</h3>
+              <p class="why-desc">A strict similarity gate, a slop fingerprint penalty scan, and a side-by-side
+                comparison with real award winners.</p>
+            </div>
+          </div>
+
+          <!-- Honest Limits Box -->
+          <div class="limits-card">
+            <h3 class="limits-title">
+              <span style="color: var(--color-accent);">✕</span>
+              <span>What it won’t do (Honest limits)</span>
+            </h3>
+            <ul class="limits-list">
+              <li>It won’t clone a site. Concept, copy, media and structure are always new, and a similarity gate
+                enforces it.</li>
+              <li>It won’t replace a designer’s judgment. Treat the output as an opinionated, high-craft first draft.
+              </li>
+              <li>It can’t fully recreate custom proprietary WebGL or paid fonts from a seed. It will state what it
+                couldn’t measure.</li>
+              <li>Runs take a while, because it actually browses and measures a real site.</li>
+              <li>It works best when your agent has a browser tool and a terminal.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- WHO IT'S FOR -->
+      <section class="section-audience">
+        <div class="container">
+          <span class="zone-badge"><span class="dot"></span> TARGET USERS</span>
+          <h2 class="text-title-1" style="margin-top: 0.75rem;">Who it’s for.</h2>
+
+          <div class="audience-grid">
+            <div class="audience-card">
+              <div class="audience-card-role">01 / BUILDERS</div>
+              <h3 class="audience-card-title">Developers & Vibe Coders</h3>
+              <p class="audience-card-desc">You ship quickly with AI agents and want your products to stop looking like
+                cookie-cutter starter templates.</p>
+            </div>
+            <div class="audience-card">
+              <div class="audience-card-role">02 / CRAFTSPEOPLE</div>
+              <h3 class="audience-card-title">Digital Product Designers</h3>
+              <p class="audience-card-desc">You want a fast, opinionated first draft that explores bold typographic and
+                interaction angles to react to.</p>
+            </div>
+            <div class="audience-card">
+              <div class="audience-card-role">03 / CREATORS</div>
+              <h3 class="audience-card-title">Startup Founders</h3>
+              <p class="audience-card-desc">You need a launch page that stands out instantly in the feed and doesn't
+                look like every other SaaS launch.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ SECTION -->
+      <section class="section-faq">
+        <div class="container">
+          <div style="text-align: center; max-width: 680px; margin: 0 auto;">
+            <span class="zone-badge"><span class="dot"></span> QUESTIONS & ANSWERS</span>
+            <h2 class="text-title-1" style="margin-top: 0.75rem;">Frequently asked questions.</h2>
+          </div>
+
+          <div class="faq-list">
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>Is it copying other websites?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-answer">
+                No. It studies a seed site the way a designer studies a reference: colors, type scale, motion timing,
+                interaction mechanics. It never reuses text, images, logos, icons, font files or source code, and it
+                must change at least 4 of 6 key dimensions before shipping.
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>Which agents does it work with?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-answer">
+                Any agent that supports the Agent Skills format (tested with Antigravity IDE and Claude Code). See the <a href="install.html"
+                  style="text-decoration: underline; color: var(--color-accent);">Install page</a>.
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>Does it cost anything?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-answer">
+                Taste Engine itself is free and open-source. Your underlying
+                agent or LLM model may have its own API token costs.
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>Can I change the dice?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-answer">
+                Yes! The dice are plain lists inside <code class="code-token">SKILL.md</code>. You can easily edit
+                options, add new reference worlds, or enforce your team's specific brand rules.
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>What if the seed site blocks it?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-answer">
+                It never bypasses blocks, logins or captchas. It logs the skip in <code
+                  class="code-token">design/dice.md</code> and automatically moves to the next position.
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>How long does a run take?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-answer">
+                Longer than a normal one-shot prompt, since it actually opens the browser, crawls, measures easing
+                values, and previews on two viewports.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FINAL CTA -->
+      <section class="section-final-cta">
+        <div class="container">
+          <div class="cta-box">
+            <span class="zone-badge" style="margin-bottom: 1.25rem;"><span class="dot"></span> READY TO SHIP</span>
+            <h2 class="text-title-1">Make your next site not look like an AI made it.</h2>
+            <p class="text-body-lg text-muted">One single SKILL.md file. No telemetry, no accounts, zero lock-in.</p>
+            <div class="cta-actions">
+              <a href="install.html" class="btn btn-primary" style="padding: 14px 32px; font-size: 1.05rem;">
+                <span>Install Taste Engine</span>
+                <span style="font-family: var(--font-code);">→</span>
+              </a>
+              <a href="docs.html" class="btn btn-secondary">Read the docs</a>
+            </div>
+          </div>
+        </div>
+      </section>
+  </main>
+
+  <!-- Shared Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div class="logo-block" style="margin-bottom: 12px;">
+            <div class="interactive-dice-logo">⚄</div>
+            <span>Taste Engine</span>
+          </div>
+          <p class="text-body" style="max-width: 420px; font-size: 0.95rem;">
+            Give your AI agent taste. Stop shipping the average of the internet.
+          </p>
+        </div>
+
+        <div class="footer-note-honesty">
+          <strong>Transparency Notice:</strong> Taste Engine studies public websites for inspiration and never copies
+          their code, text, images or fonts. Seed sites are credited in every project.
+        </div>
+      </div>
+
+      <div class="footer-meta">
+        <span>Taste Engine is a free, open-source agent skill. One text file. No account, no server, no telemetry.</span>
+        <span>•</span>
+        <span><a href="https://github.com/lakshya1282/taste-engine" target="_blank" rel="noopener" style="text-decoration: underline; color: inherit;">GitHub</a></span>
+        <span>•</span>
+        <span><a href="https://instagram.com/web_pros" target="_blank" rel="noopener" style="text-decoration: underline; color: inherit;">@web_pros</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Screenshot Lightbox Modal -->
+  <div id="screenshot-modal" class="screenshot-modal" aria-hidden="true" role="dialog" aria-label="Screenshot Preview">
+    <div class="screenshot-modal-backdrop"></div>
+    <div class="screenshot-modal-inner">
+      <div class="screenshot-modal-bar">
+        <span id="screenshot-modal-caption">Full Resolution Run Preview</span>
+        <button type="button" class="screenshot-modal-close" aria-label="Close modal">ESC ✕</button>
+      </div>
+      <img id="screenshot-modal-img" src="" alt="Full resolution run screenshot" />
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>

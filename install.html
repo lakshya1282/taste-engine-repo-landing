@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Install Taste Engine in Antigravity, Claude Code and other agents</title>
+  <meta name="description" content="One file called SKILL.md. Put it in your agent's skills folder and you're done.">
+  
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.9/dist/lenis.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <!-- Print Registration Marks -->
+  <div class="registration-mark top-left">+ 01 / INSTALL</div>
+  <div class="registration-mark top-right">+ 02 / AGENTS</div>
+  <div class="registration-mark bottom-left">+ 03 / TERMINAL</div>
+  <div class="registration-mark bottom-right">+ 04 / VERIFY</div>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="logo-block">
+        <div class="interactive-dice-logo">⚄</div>
+        <span>Taste Engine</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="how-it-works.html" class="nav-link">How it works</a></li>
+        <li><a href="docs.html" class="nav-link">Docs</a></li>
+        <li><a href="install.html" class="nav-link active">Install</a></li>
+        <li><a href="https://github.com/lakshya1282/taste-engine" class="nav-link" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="install.html" class="btn btn-primary">Get the skill</a></li>
+      </ul>
+
+      <button class="mobile-nav-toggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main style="padding: clamp(3rem, 6vw, 5.5rem) 0 4rem;">
+    <div class="container-narrow">
+      <span class="zone-badge" style="margin-bottom: 1.25rem;"><span class="dot"></span> SETUP DISPATCH</span>
+      <h1 class="text-hero" style="margin-bottom: 0.75rem;">Install Taste Engine.</h1>
+      <p class="text-body-lg text-muted" style="margin-bottom: 2.5rem;">
+        It’s one file called <code class="code-token">SKILL.md</code>. Put it in your agent’s skills folder and you’re done.
+      </p>
+
+      <!-- Step 0: Get the file -->
+      <section style="background: var(--color-surface); border: 2px solid var(--color-ink-heavy); border-radius: 6px; padding: 24px; box-shadow: var(--shadow-tactile); margin-bottom: 2.5rem;">
+        <h2 class="text-title-3" style="margin-bottom: 10px;">Step 0: Get the file</h2>
+        <p class="text-body" style="margin-bottom: 16px;">
+          Download <code class="code-token">SKILL.md</code> directly from the repository, or clone it via git:
+        </p>
+        <div class="code-block-wrap" style="margin: 0;">
+          <div class="code-block-header">
+            <span>TERMINAL</span>
+            <button class="code-copy-btn">COPY</button>
+          </div>
+          <pre><code>git clone https://github.com/lakshya1282/taste-engine.git</code></pre>
+        </div>
+      </section>
+
+      <!-- Tabs Navigation (Remembers selection) -->
+      <section class="tabs-container">
+        <div class="tabs-nav">
+          <button class="tab-btn active" data-tab="tab-antigravity">Antigravity (Global)</button>
+          <button class="tab-btn" data-tab="tab-antigravity-proj">Antigravity (One Project)</button>
+          <button class="tab-btn" data-tab="tab-antigravity-cli">Antigravity CLI</button>
+          <button class="tab-btn" data-tab="tab-claude-code">Claude Code</button>
+          <button class="tab-btn" data-tab="tab-claude-app">Claude App</button>
+          <button class="tab-btn" data-tab="tab-other">Other Agents</button>
+        </div>
+
+        <!-- 1. Antigravity Global Pane -->
+        <div class="tab-pane active" id="tab-antigravity">
+          <h3 class="text-title-3" style="margin-bottom: 8px;">Antigravity (IDE or App), all projects</h3>
+          <p class="text-body" style="margin-bottom: 14px;">Installs Taste Engine globally across all workspaces in Antigravity.</p>
+
+          <div class="subtabs-nav">
+            <button class="subtab-btn active" data-subtab="ag-mac">Mac / Linux (Bash)</button>
+            <button class="subtab-btn" data-subtab="ag-win">Windows (PowerShell)</button>
+          </div>
+
+          <div class="subtab-pane" id="ag-mac">
+            <div class="code-block-wrap">
+              <div class="code-block-header">
+                <span>BASH / ZSH</span>
+                <button class="code-copy-btn">COPY</button>
+              </div>
+              <pre><code>mkdir -p ~/.gemini/config/skills/taste-engine
+cp SKILL.md ~/.gemini/config/skills/taste-engine/SKILL.md</code></pre>
+            </div>
+          </div>
+
+          <div class="subtab-pane" id="ag-win" style="display: none;">
+            <div class="code-block-wrap">
+              <div class="code-block-header">
+                <span>POWERSHELL</span>
+                <button class="code-copy-btn">COPY</button>
+              </div>
+              <pre><code>New-Item -ItemType Directory -Force "$HOME\.gemini\config\skills\taste-engine"
+Copy-Item SKILL.md "$HOME\.gemini\config\skills\taste-engine\SKILL.md"</code></pre>
+            </div>
+          </div>
+
+          <p style="font-size: 0.85rem; color: var(--color-ink-muted); margin-top: 10px;">
+            Note: Older setups may use <code class="code-token">~/.gemini/antigravity/skills/</code>, which is also fully supported.
+          </p>
+        </div>
+
+        <!-- 2. Antigravity One Project Pane -->
+        <div class="tab-pane" id="tab-antigravity-proj">
+          <h3 class="text-title-3" style="margin-bottom: 8px;">Antigravity, one project only</h3>
+          <p class="text-body" style="margin-bottom: 14px;">Scope Taste Engine to a single repository:</p>
+          <div class="code-block-wrap">
+            <div class="code-block-header">
+              <span>PATH</span>
+              <button class="code-copy-btn">COPY</button>
+            </div>
+            <pre><code>&lt;your-project&gt;/.agents/skills/taste-engine/SKILL.md</code></pre>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--color-ink-muted);">
+            The older folder path <code class="code-token">.agent/skills/</code> also works seamlessly.
+          </p>
+        </div>
+
+        <!-- 3. Antigravity CLI Pane -->
+        <div class="tab-pane" id="tab-antigravity-cli">
+          <h3 class="text-title-3" style="margin-bottom: 8px;">Antigravity CLI (`agy`)</h3>
+          <p class="text-body" style="margin-bottom: 14px;">Global skills path:</p>
+          <div class="code-block-wrap">
+            <div class="code-block-header">
+              <span>CLI PATH</span>
+              <button class="code-copy-btn">COPY</button>
+            </div>
+            <pre><code>~/.gemini/antigravity-cli/skills/taste-engine/SKILL.md</code></pre>
+          </div>
+          <p class="text-body" style="margin: 14px 0 8px;">Or if packaged as an agy plugin:</p>
+          <div class="code-block-wrap">
+            <div class="code-block-header">
+              <span>AGY CLI</span>
+              <button class="code-copy-btn">COPY</button>
+            </div>
+            <pre><code>agy plugin install https://github.com/lakshya1282/taste-engine.git</code></pre>
+          </div>
+        </div>
+
+        <!-- 4. Claude Code Pane -->
+        <div class="tab-pane" id="tab-claude-code">
+          <h3 class="text-title-3" style="margin-bottom: 8px;">Claude Code</h3>
+          <p class="text-body" style="margin-bottom: 14px;">For all projects:</p>
+          <div class="code-block-wrap">
+            <div class="code-block-header">
+              <span>BASH</span>
+              <button class="code-copy-btn">COPY</button>
+            </div>
+            <pre><code>mkdir -p ~/.claude/skills/taste-engine
+cp SKILL.md ~/.claude/skills/taste-engine/SKILL.md</code></pre>
+          </div>
+          <p class="text-body" style="margin: 14px 0 8px;">For a single project:</p>
+          <div class="code-block-wrap">
+            <div class="code-block-header">
+              <span>PATH</span>
+              <button class="code-copy-btn">COPY</button>
+            </div>
+            <pre><code>.claude/skills/taste-engine/SKILL.md</code></pre>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--color-ink-muted);">
+            Note: Taste Engine works best when Claude Code has a browser tool available (e.g. Chrome DevTools or Puppeteer MCP) plus terminal access.
+          </p>
+        </div>
+
+        <!-- 5. Claude App Pane -->
+        <div class="tab-pane" id="tab-claude-app">
+          <h3 class="text-title-3" style="margin-bottom: 8px;">Claude App</h3>
+          <p class="text-body" style="margin-bottom: 14px;">
+            Zip a folder named <code class="code-token">taste-engine</code> that contains <code class="code-token">SKILL.md</code>, then upload it under:
+          </p>
+          <div style="background: var(--color-surface-dim); border: 1px solid var(--color-border); padding: 12px 16px; border-radius: 4px; font-weight: 700; margin-bottom: 10px;">
+            Settings → Capabilities → Skills
+          </div>
+          <p style="font-size: 0.85rem; color: var(--color-ink-muted);">
+            <span class="todo-chip">[Confirm availability on your plan and test this before publishing.]</span>
+          </p>
+        </div>
+
+        <!-- 6. Other Agents Pane -->
+        <div class="tab-pane" id="tab-other">
+          <h3 class="text-title-3" style="margin-bottom: 8px;">Other Agents</h3>
+          <p class="text-body" style="margin-bottom: 12px;">
+            If your agent supports the <strong>Agent Skills</strong> format, copy the <code class="code-token">taste-engine</code> folder (containing <code class="code-token">SKILL.md</code>) into its skills directory.
+          </p>
+          <p class="text-body">
+            If it doesn't support skills natively, paste the raw markdown contents of <code class="code-token">SKILL.md</code> into its system prompt, rules, or custom instructions file. You can simply invoke it by saying: <em>"Follow the taste-engine process."</em>
+          </p>
+        </div>
+      </section>
+
+      <!-- Optional Install Script -->
+      <section style="margin: 3.5rem 0;">
+        <span class="zone-badge" style="margin-bottom: 12px;"><span class="dot"></span> SHELL UTILITY</span>
+        <h2 class="text-title-2">Optional automated install script</h2>
+        <p class="text-body text-muted" style="margin-bottom: 14px;">A simple cross-platform bash script to detect and install for both Antigravity and Claude Code:</p>
+
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span>install.sh</span>
+            <button class="code-copy-btn">COPY SCRIPT</button>
+          </div>
+          <pre><code>#!/usr/bin/env bash
+set -e
+NAME=taste-engine
+if [ -d "$HOME/.gemini" ]; then
+  mkdir -p "$HOME/.gemini/config/skills/$NAME"
+  cp SKILL.md "$HOME/.gemini/config/skills/$NAME/SKILL.md"
+  echo "Installed for Antigravity"
+fi
+if [ -d "$HOME/.claude" ]; then
+  mkdir -p "$HOME/.claude/skills/$NAME"
+  cp SKILL.md "$HOME/.claude/skills/$NAME/SKILL.md"
+  echo "Installed for Claude Code"
+fi</code></pre>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--color-ink-muted);">Always review any script before executing it in your shell.</p>
+      </section>
+
+      <!-- Interactive Verification Checklist -->
+      <section style="margin: 3.5rem 0;">
+        <span class="zone-badge" style="margin-bottom: 12px;"><span class="dot"></span> AUDIT CHECKLIST</span>
+        <h2 class="text-title-2">Verify it worked</h2>
+        <div class="checklist-box">
+          <label class="checklist-item">
+            <input type="checkbox">
+            <span>In Antigravity, open the <strong>Customizations</strong> menu in the agent panel and verify <code class="code-token">taste-engine</code> is listed.</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox">
+            <span>Start a new conversation and type <code class="code-token">/taste-engine</code>, or ask: <em>"Which skills do you have?"</em></span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox">
+            <span>Run a quick test brief: <code class="code-token">/taste-engine design a landing page for [any idea]</code></span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Requirements & Updates -->
+      <section style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 3rem 0;">
+        <div style="background: var(--color-surface); border: 1.5px solid var(--color-border-heavy); border-radius: 6px; padding: 22px; box-shadow: var(--shadow-tactile);">
+          <h3 class="text-title-3" style="margin-bottom: 8px;">System Requirements</h3>
+          <ul style="padding-left: 18px; font-size: var(--text-small); line-height: 1.6; color: var(--color-ink-body);">
+            <li>An agent supporting Agent Skills or custom rules</li>
+            <li>A browser tool (strongly recommended for seed crawls)</li>
+            <li>Terminal access for dice rolls and local previews</li>
+            <li>Active internet connection for reference measurement</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--color-surface); border: 1.5px solid var(--color-border-heavy); border-radius: 6px; padding: 22px; box-shadow: var(--shadow-tactile);">
+          <h3 class="text-title-3" style="margin-bottom: 8px;">Updates & Uninstall</h3>
+          <p style="font-size: var(--text-small); color: var(--color-ink-body); margin-bottom: 8px;">
+            <strong>To Update:</strong> Download the latest <code class="code-token">SKILL.md</code> and overwrite the file in your skills directory. Start a fresh conversation session.
+          </p>
+          <p style="font-size: var(--text-small); color: var(--color-ink-body);">
+            <strong>To Uninstall:</strong> Delete the <code class="code-token">taste-engine</code> folder.
+          </p>
+        </div>
+      </section>
+
+      <!-- Safety Notice Box -->
+      <section style="background: var(--color-ground-alt); border: 2px solid var(--color-ink-heavy); border-radius: 6px; padding: 24px; margin-top: 3rem; box-shadow: var(--shadow-tactile);">
+        <h3 class="text-title-3" style="margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+          <span>🛡</span>
+          <span>Safety & Execution Etiquette</span>
+        </h3>
+        <p class="text-body" style="font-size: 0.95rem; color: var(--color-ink-body); line-height: 1.6;">
+          Taste Engine makes your agent browse public websites and run small calculation scripts in your terminal. It reads <code class="code-token">robots.txt</code>, throttles requests slowly, and never attempts to bypass logins or bot challenges. Your agent’s own permission boundaries remain in full effect. Always review commands before approving them.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <!-- Shared Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div class="logo-block" style="margin-bottom: 12px;">
+            <div class="interactive-dice-logo">⚄</div>
+            <span>Taste Engine</span>
+          </div>
+          <p class="text-body" style="max-width: 420px; font-size: 0.95rem;">
+            Give your AI agent taste. Stop shipping the average of the internet.
+          </p>
+        </div>
+
+        <div class="footer-note-honesty">
+          <strong>Transparency Notice:</strong> Taste Engine studies public websites for inspiration and never copies their code, text, images or fonts. Seed sites are credited in every project.
+        </div>
+      </div>
+
+      <div class="footer-meta">
+        <span>Taste Engine is a free, open-source agent skill. One text file. No account, no server, no telemetry.</span>
+        <span>•</span>
+        <span><a href="https://github.com/lakshya1282/taste-engine" target="_blank" rel="noopener" style="text-decoration: underline; color: inherit;">GitHub</a></span>
+        <span>•</span>
+        <span><a href="https://instagram.com/web_pros" target="_blank" rel="noopener" style="text-decoration: underline; color: inherit;">@web_pros</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+

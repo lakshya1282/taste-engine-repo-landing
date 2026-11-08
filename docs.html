@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taste Engine docs: usage, files, dice and gates</title>
+  <meta name="description" content="Complete reference documentation for Taste Engine agent skill: usage, files, dice and gates.">
+  
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.9/dist/lenis.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <!-- Print Registration Marks -->
+  <div class="registration-mark top-left">+ DOCS / 01</div>
+  <div class="registration-mark top-right">+ SPEC / REF</div>
+  <div class="registration-mark bottom-left">+ API / SHEETS</div>
+  <div class="registration-mark bottom-right">+ END / V3</div>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="logo-block">
+        <div class="interactive-dice-logo">⚄</div>
+        <span>Taste Engine</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="how-it-works.html" class="nav-link">How it works</a></li>
+        <li><a href="docs.html" class="nav-link active">Docs</a></li>
+        <li><a href="install.html" class="nav-link">Install</a></li>
+        <li><a href="https://github.com/lakshya1282/taste-engine" class="nav-link" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="install.html" class="btn btn-primary">Get the skill</a></li>
+      </ul>
+
+      <button class="mobile-nav-toggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="docs-layout">
+      <!-- Left Sidebar -->
+      <aside class="docs-sidebar">
+        <div class="docs-nav-group-title">Documentation</div>
+        <ul class="docs-nav-list">
+          <li><a href="#quick-start" class="docs-nav-link active">1. Quick start</a></li>
+          <li><a href="#brief-guidelines" class="docs-nav-link">2. What to put in your brief</a></li>
+          <li><a href="#files-created" class="docs-nav-link">3. What it creates</a></li>
+          <li><a href="#the-dice" class="docs-nav-link">4. The dice</a></li>
+          <li><a href="#inherit-mutate" class="docs-nav-link">5. Inherit & mutate rules</a></li>
+          <li><a href="#gates-scoring" class="docs-nav-link">6. Gates & scoring</a></li>
+          <li><a href="#safety" class="docs-nav-link">7. Safety & etiquette</a></li>
+          <li><a href="#customizing" class="docs-nav-link">8. Customizing</a></li>
+          <li><a href="#troubleshooting" class="docs-nav-link">9. Troubleshooting</a></li>
+          <li><a href="#changelog" class="docs-nav-link">10. Changelog</a></li>
+        </ul>
+      </aside>
+
+      <!-- Main Content Column -->
+      <div class="docs-main-content">
+        <div style="margin-bottom: 2.5rem;">
+          <span class="zone-badge" style="margin-bottom: 1rem;"><span class="dot"></span> REFERENCE MANUAL</span>
+          <h1 class="text-title-1">Taste Engine Documentation</h1>
+          <p class="text-body-lg text-muted">A calm and complete guide to using the skill, understanding outputs, and configuring dice.</p>
+        </div>
+
+        <!-- 1. Quick Start -->
+        <section id="quick-start" class="docs-section">
+          <h2 class="text-title-2">1. Quick start</h2>
+          <p>Get up and running with Taste Engine in less than two minutes:</p>
+          <ol style="padding-left: 20px; font-size: var(--text-body); line-height: 1.8; color: var(--color-ink-body);">
+            <li><strong>Install the skill:</strong> Put the <code class="code-token">SKILL.md</code> file into your agent's skills directory (see <a href="install.html" style="color: var(--color-accent); text-decoration: underline;">Install</a>).</li>
+            <li><strong>Open a project folder</strong> in your coding agent workspace.</li>
+            <li><strong>Give it a brief:</strong>
+              <div class="code-block-wrap">
+                <div class="code-block-header">
+                  <span>TERMINAL / CHAT PROMPT</span>
+                  <button class="code-copy-btn">COPY</button>
+                </div>
+                <pre><code>/taste-engine design a landing page for a thrift-resale app for college students in India</code></pre>
+              </div>
+              <p style="font-size: 0.9rem; color: var(--color-ink-muted);">Or in plain words: <em>"Use taste-engine to redesign my portfolio. Audience: startup founders hiring designers."</em></p>
+            </li>
+            <li><strong>Let it run:</strong> It will display the Direction Card, execute the seed crawl, build the clean-room site, preview it, and report back with scorecard metrics.</li>
+          </ol>
+        </section>
+
+        <!-- 2. What to put in your brief -->
+        <section id="brief-guidelines" class="docs-section">
+          <h2 class="text-title-2">2. What to put in your brief</h2>
+          <p>The skill extracts exactly what it needs from your prompt to avoid creative drift:</p>
+          <ul style="padding-left: 20px; font-size: var(--text-body); line-height: 1.7; color: var(--color-ink-body); margin-bottom: 1.25rem;">
+            <li><strong>What it is:</strong> Product, service, portfolio, campaign, or dev tool.</li>
+            <li><strong>Who it’s for:</strong> Age, culture, where they hang out online, and what aesthetic they already love.</li>
+            <li><strong>The feeling in the first 3 seconds:</strong> Visceral adjective or phrase (e.g. "tactile and loud").</li>
+            <li><strong>The one action:</strong> The single primary conversion goal for the visitor.</li>
+            <li><strong>What it must never look like:</strong> The specific tropes you want strictly forbidden.</li>
+            <li><strong>Your stack:</strong> Defaults to plain HTML + CSS + JS with GSAP and Lenis unless named otherwise.</li>
+          </ul>
+
+          <div style="background: var(--color-surface); border-left: 4px solid var(--color-accent); padding: 16px 20px; border-radius: 4px; box-shadow: 2px 2px 0px #0d1218;">
+            <strong>💡 Pro-Tip on Luxury:</strong> "Luxury", "premium", "serious", or "B2B" does not mean dark + gold + serif. It means confidence and restraint, which can be expressed in a hundred other ways. Say what you actually mean.
+          </div>
+        </section>
+
+        <!-- 3. What it creates -->
+        <section id="files-created" class="docs-section">
+          <h2 class="text-title-2">3. What it creates</h2>
+          <p>Every Taste Engine execution generates an audit trail under <code class="code-token">your-project/design/</code>:</p>
+
+          <div class="outputs-table-wrap">
+            <table class="outputs-table">
+              <thead>
+                <tr>
+                  <th>File</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code class="code-token">design/brief.md</code></td>
+                  <td>Your initial brief, cleaned up, with assumptions and audience profile.</td>
+                </tr>
+                <tr>
+                  <td><code class="code-token">design/dice.md</code></td>
+                  <td>The exact terminal dice results that govern mutations.</td>
+                </tr>
+                <tr>
+                  <td><code class="code-token">design/design.md</code></td>
+                  <td>The seed site’s measured design document (colors, type, motion catalog).</td>
+                </tr>
+                <tr>
+                  <td><code class="code-token">design/references.md</code></td>
+                  <td>Notes and craft teardown from 4–6 additional reference sites.</td>
+                </tr>
+                <tr>
+                  <td><code class="code-token">design/concept.md</code></td>
+                  <td>Five generated big ideas, two deleted, one chosen.</td>
+                </tr>
+                <tr>
+                  <td><code class="code-token">design/direction.md</code></td>
+                  <td>The Direction Card, mutation plan, and signature moves.</td>
+                </tr>
+                <tr>
+                  <td><code class="code-token">design/tokens.md</code></td>
+                  <td>Your site’s complete CSS custom properties design system.</td>
+                </tr>
+                <tr>
+                  <td><code class="code-token">design/critique.md</code></td>
+                  <td>Gate results, scorecard out of 40, and revision logs.</td>
+                </tr>
+                <tr>
+                  <td><code class="code-token">design/refs/</code></td>
+                  <td>Private study screenshots and extracted text. Git-ignored. Never shipped.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 4. The dice -->
+        <section id="the-dice" class="docs-section">
+          <h2 class="text-title-2">4. The dice</h2>
+          <p>The dice prevent creative collapse by forcing unpredictable aesthetic choices:</p>
+
+          <div class="outputs-table-wrap">
+            <table class="outputs-table">
+              <thead>
+                <tr>
+                  <th>Die</th>
+                  <th>What it controls</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Seed source</strong></td>
+                  <td>Which gallery, listing page, and position the seed comes from.</td>
+                </tr>
+                <tr>
+                  <td><strong>Inherit anchors</strong></td>
+                  <td>Which 3 of 5 design elements to take nearly intact from the seed.</td>
+                </tr>
+                <tr>
+                  <td><strong>Background</strong></td>
+                  <td>Light paper, saturated color, mid-tone, chromatic dark, split screen, etc.</td>
+                </tr>
+                <tr>
+                  <td><strong>Palette logic</strong></td>
+                  <td>Physical object colors, clashing hues, opposite accent, fluorescent on neutrals.</td>
+                </tr>
+                <tr>
+                  <td><strong>Type personality</strong></td>
+                  <td>Quirky grotesk, wedge serif, condensed poster, variable font play, marker/handwritten.</td>
+                </tr>
+                <tr>
+                  <td><strong>Layout skeleton</strong></td>
+                  <td>Single viewport, horizontal scroll, pinned scene, interactive index, draggable canvas.</td>
+                </tr>
+                <tr>
+                  <td><strong>Motion signature</strong></td>
+                  <td>Velocity skew, shape masks, physics, cursor character, WebGL distortion, color floods.</td>
+                </tr>
+                <tr>
+                  <td><strong>Extra constraint</strong></td>
+                  <td>No cards, no top nav, something to throw, max 4 elements in first screen.</td>
+                </tr>
+                <tr>
+                  <td><strong>Wildcard world</strong></td>
+                  <td>An unrelated industry (fashion, indie game, zine studio, packaging) to borrow from.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--color-ink-muted);">
+            The full lists live inside <code class="code-token">SKILL.md</code>. You can edit them to add custom faces.
+          </p>
+        </section>
+
+        <!-- 5. Inherit and mutate rules -->
+        <section id="inherit-mutate" class="docs-section">
+          <h2 class="text-title-2">5. Inherit and mutate rules</h2>
+          <p>How the skill balances craft inheritance with total originality:</p>
+          <ul style="padding-left: 20px; font-size: var(--text-body); line-height: 1.7; color: var(--color-ink-body);">
+            <li><strong>Always new:</strong> Concept, copy, media, logo, and icons are never copied from the seed.</li>
+            <li><strong>Always replaced:</strong> Section order (dictated by the layout skeleton roll) and background (dictated by the background roll).</li>
+            <li><strong>Anchors (3 of 5):</strong> Kept nearly intact. For color relationships, you may keep up to 3 exact hex values, but the dominant surface or accent must change. For type hierarchy, maintain the scale ratio and size relationships, but change at least one family in the pairing.</li>
+            <li><strong>Non-anchors:</strong> Must change in kind to ensure divergence.</li>
+          </ul>
+        </section>
+
+        <!-- 6. Gates and scoring -->
+        <section id="gates-scoring" class="docs-section">
+          <h2 class="text-title-2">6. Gates and scoring</h2>
+          <p>Every generated site must pass three gates before shipping:</p>
+          <ul style="padding-left: 20px; font-size: var(--text-body); line-height: 1.7; color: var(--color-ink-body);">
+            <li><strong>Similarity gate:</strong> At least 4 of 6 dimensions must be clearly different from the seed (concept, structure, dominant color, type pairing, media, interaction).</li>
+            <li><strong>Slop scan:</strong> Each cliché hit costs -1 point. Zero hits required to pass.</li>
+            <li><strong>Parity test:</strong> Side-by-side comparison with 3 real references. Could it sit in the same gallery row?</li>
+            <li><strong>Scorecard:</strong> Eight categories scored 1 to 5. Passing threshold is 32/40 or higher, with no single category below 3. Maximum of two revision loops.</li>
+          </ul>
+        </section>
+
+        <!-- 7. Safety and etiquette -->
+        <section id="safety" class="docs-section">
+          <h2 class="text-title-2">7. Safety and etiquette</h2>
+          <p>Taste Engine crawls with extreme respect for web infrastructure:</p>
+          <ul style="padding-left: 20px; font-size: var(--text-body); line-height: 1.7; color: var(--color-ink-body);">
+            <li>Always reads and respects <code class="code-token">/robots.txt</code> before any request.</li>
+            <li>Waits at least 1 second between requests and caps total requests at ~30 per site.</li>
+            <li>Immediately halts on HTTP 403 or 429.</li>
+            <li>Never logs in, and never bypasses a login wall, captcha, or bot challenge.</li>
+            <li>Saves only text (HTML, CSS, JS) for measurement. Never downloads proprietary video, images, or font files.</li>
+            <li>Always credits the seed site in the delivery note.</li>
+          </ul>
+        </section>
+
+        <!-- 8. Customizing -->
+        <section id="customizing" class="docs-section">
+          <h2 class="text-title-2">8. Customizing</h2>
+          <p>You can fine-tune Taste Engine for your team's workflow:</p>
+          <ul style="padding-left: 20px; font-size: var(--text-body); line-height: 1.7; color: var(--color-ink-body);">
+            <li><strong>Edit dice faces:</strong> Open <code class="code-token">SKILL.md</code> and modify the Python dice list in Phase 2.</li>
+            <li><strong>Ban new cliches:</strong> Add emerging tropes to the Phase 9 slop fingerprint list.</li>
+            <li><strong>Change default stack:</strong> Specify Next.js, React, Astro, or Tailwind instead of plain HTML/CSS/JS.</li>
+            <li><strong>Raise standards:</strong> Increase the scorecard passing bar to 36/40.</li>
+          </ul>
+        </section>
+
+        <!-- 9. Troubleshooting -->
+        <section id="troubleshooting" class="docs-section">
+          <h2 class="text-title-2">9. Troubleshooting</h2>
+          <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 1rem;">
+            <div style="background: var(--color-surface); padding: 16px; border: 1.5px solid var(--color-border-heavy); border-radius: 4px;">
+              <strong>The skill doesn't show up:</strong> Ensure the path is exactly <code class="code-token">skills/taste-engine/SKILL.md</code> (one level deep) and restart the conversation session.
+            </div>
+            <div style="background: var(--color-surface); padding: 16px; border: 1.5px solid var(--color-border-heavy); border-radius: 4px;">
+              <strong>It skipped the crawl:</strong> Prompt your agent: <em>"Follow the taste-engine phases in order. Start with the dice and the seed crawl."</em>
+            </div>
+            <div style="background: var(--color-surface); padding: 16px; border: 1.5px solid var(--color-border-heavy); border-radius: 4px;">
+              <strong>It can't run console snippets:</strong> The agent automatically falls back to reading raw stylesheets and marks data as "inferred".
+            </div>
+            <div style="background: var(--color-surface); padding: 16px; border: 1.5px solid var(--color-border-heavy); border-radius: 4px;">
+              <strong>The seed was blocked:</strong> Completely normal. It logs the skip and takes the next position on the page.
+            </div>
+            <div style="background: var(--color-surface); padding: 16px; border: 1.5px solid var(--color-border-heavy); border-radius: 4px;">
+              <strong>Result looks too close to the seed:</strong> Ask the agent to mutate dominant color, structure, and type pairing, then re-evaluate the similarity gate.
+            </div>
+          </div>
+        </section>
+
+        <!-- 10. FAQ / Changelog -->
+        <section id="changelog" class="docs-section">
+          <h2 class="text-title-2">10. Changelog</h2>
+          <p><strong>Changelog:</strong></p>
+          <ul style="padding-left: 20px; font-size: var(--text-small); line-height: 1.7; color: var(--color-ink-muted); margin-bottom: 1rem;">
+            <li><strong>v1:</strong> First experimental prompt prototype.</li>
+            <li><strong>v2:</strong> Added measured references, dice mutations, concept-first burn, and hard gates.</li>
+            <li><strong>v3:</strong> Full seed crawl, numeric design.md motion catalog, inherit vs mutate framework, and clean-room build enforcement.</li>
+          </ul>
+        </section>
+      </div>
+
+      <!-- Right "On this page" rail -->
+      <aside class="docs-on-page">
+        <div style="font-family: var(--font-code); font-weight: 700; text-transform: uppercase; margin-bottom: 10px; color: var(--color-ink-muted);">On this page</div>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+          <li><a href="#quick-start" style="color: var(--color-ink-body);">Quick start</a></li>
+          <li><a href="#brief-guidelines" style="color: var(--color-ink-body);">Brief guidelines</a></li>
+          <li><a href="#files-created" style="color: var(--color-ink-body);">Artifact files</a></li>
+          <li><a href="#the-dice" style="color: var(--color-ink-body);">Dice controls</a></li>
+          <li><a href="#inherit-mutate" style="color: var(--color-ink-body);">Inherit & mutate</a></li>
+          <li><a href="#gates-scoring" style="color: var(--color-ink-body);">Gates & scoring</a></li>
+          <li><a href="#safety" style="color: var(--color-ink-body);">Safety</a></li>
+          <li><a href="#customizing" style="color: var(--color-ink-body);">Customizing</a></li>
+          <li><a href="#troubleshooting" style="color: var(--color-ink-body);">Troubleshooting</a></li>
+        </ul>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Shared Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div class="logo-block" style="margin-bottom: 12px;">
+            <div class="interactive-dice-logo">⚄</div>
+            <span>Taste Engine</span>
+          </div>
+          <p class="text-body" style="max-width: 420px; font-size: 0.95rem;">
+            Give your AI agent taste. Stop shipping the average of the internet.
+          </p>
+        </div>
+
+        <div class="footer-note-honesty">
+          <strong>Transparency Notice:</strong> Taste Engine studies public websites for inspiration and never copies their code, text, images or fonts. Seed sites are credited in every project.
+        </div>
+      </div>
+
+      <div class="footer-meta">
+        <span>Taste Engine is a free, open-source agent skill. One text file. No account, no server, no telemetry.</span>
+        <span>•</span>
+        <span><a href="https://github.com/lakshya1282/taste-engine" target="_blank" rel="noopener" style="text-decoration: underline; color: inherit;">GitHub</a></span>
+        <span>•</span>
+        <span><a href="https://instagram.com/web_pros" target="_blank" rel="noopener" style="text-decoration: underline; color: inherit;">@web_pros</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+

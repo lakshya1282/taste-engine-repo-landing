@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Taste Engine works: seed, dice, design.md, build</title>
+  <meta name="description" content="Ten steps between 'I have an idea' and 'this doesn't look like a template.'">
+  
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.9/dist/lenis.css">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    /* Pipeline Specific Layout */
+    .pipeline-diagram {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 24px 0 32px;
+      margin: 2rem 0 3.5rem;
+      scrollbar-width: thin;
+    }
+    .pipeline-node {
+      flex: 0 0 110px;
+      background: var(--color-surface);
+      border: 1.5px solid var(--color-ink-heavy);
+      border-radius: 6px;
+      padding: 12px 8px;
+      text-align: center;
+      position: relative;
+      box-shadow: 2px 2px 0px #0d1218;
+      transition: transform 0.2s;
+    }
+    .pipeline-node:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-tactile);
+    }
+    .pipeline-node.node-dice {
+      border-color: var(--color-accent);
+      background: #fff5f0;
+    }
+    .pipeline-node.node-gate {
+      border-color: #ef4444;
+      background: #fef2f2;
+    }
+    .node-num {
+      font-family: var(--font-code);
+      font-size: 11px;
+      color: var(--color-ink-muted);
+      margin-bottom: 4px;
+    }
+    .node-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--color-ink-heavy);
+    }
+    .node-badge {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--color-accent);
+      display: block;
+      margin-top: 4px;
+    }
+
+    /* Ten Steps List Layout */
+    .ten-steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      margin-top: 3rem;
+    }
+    .step-item {
+      background: var(--color-surface);
+      border: 2px solid var(--color-ink-heavy);
+      border-radius: 6px;
+      padding: 28px;
+      box-shadow: var(--shadow-tactile);
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 24px;
+      align-items: start;
+      position: relative;
+    }
+    .step-item.highlight-step {
+      border-color: var(--color-accent);
+      box-shadow: var(--shadow-tactile-accent);
+    }
+    .step-index-badge {
+      font-family: var(--font-code);
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--color-accent);
+      line-height: 1;
+    }
+    .step-content h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .step-content p {
+      font-size: var(--text-body);
+      color: var(--color-ink-body);
+      line-height: var(--lh-normal);
+    }
+
+    /* Explainer Cards */
+    .explainer-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin: 4rem 0;
+    }
+    .explainer-card {
+      background: var(--color-ground-alt);
+      border: 2px solid var(--color-ink-heavy);
+      border-radius: 6px;
+      padding: 28px;
+      box-shadow: var(--shadow-tactile);
+    }
+    .explainer-card h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .step-item {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .explainer-pair {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Print Registration Marks -->
+  <div class="registration-mark top-left">+ 01 / PIPELINE</div>
+  <div class="registration-mark top-right">+ 02 / STEPS</div>
+  <div class="registration-mark bottom-left">+ 03 / GATES</div>
+  <div class="registration-mark bottom-right">+ 04 / AUDIT</div>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="logo-block">
+        <div class="interactive-dice-logo">⚄</div>
+        <span>Taste Engine</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="how-it-works.html" class="nav-link active">How it works</a></li>
+        <li><a href="docs.html" class="nav-link">Docs</a></li>
+        <li><a href="install.html" class="nav-link">Install</a></li>
+        <li><a href="https://github.com/lakshya1282/taste-engine" class="nav-link" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="install.html" class="btn btn-primary">Get the skill</a></li>
+      </ul>
+
+      <button class="mobile-nav-toggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section style="padding: clamp(3rem, 6vw, 5.5rem) 0 2rem;">
+      <div class="container">
+        <span class="zone-badge" style="margin-bottom: 1.25rem;"><span class="dot"></span> ARCHITECTURE</span>
+        <h1 class="text-hero" style="margin-bottom: 1rem;">How Taste Engine works.</h1>
+        <p class="text-body-lg text-muted" style="max-width: 760px;">
+          Ten steps between "I have an idea" and "this doesn't look like a template." An autonomous craft protocol for coding agents.
+        </p>
+
+        <!-- Horizontal Interactive Pipeline Diagram -->
+        <div class="pipeline-diagram">
+          <div class="pipeline-node">
+            <div class="node-num">01</div>
+            <div class="node-title">Brief</div>
+          </div>
+          <div class="pipeline-node node-dice">
+            <div class="node-num">02 ⚄</div>
+            <div class="node-title">The Dice</div>
+            <span class="node-badge">RANDOM</span>
+          </div>
+          <div class="pipeline-node">
+            <div class="node-num">03</div>
+            <div class="node-title">Seed Crawl</div>
+          </div>
+          <div class="pipeline-node">
+            <div class="node-num">04</div>
+            <div class="node-title">design.md</div>
+          </div>
+          <div class="pipeline-node">
+            <div class="node-num">05</div>
+            <div class="node-title">Ref Scan</div>
+          </div>
+          <div class="pipeline-node">
+            <div class="node-num">06</div>
+            <div class="node-title">Concept</div>
+          </div>
+          <div class="pipeline-node">
+            <div class="node-num">07</div>
+            <div class="node-title">Direction</div>
+          </div>
+          <div class="pipeline-node">
+            <div class="node-num">08</div>
+            <div class="node-title">Clean Build</div>
+          </div>
+          <div class="pipeline-node node-gate">
+            <div class="node-num">09 🛡</div>
+            <div class="node-title">The Gates</div>
+            <span class="node-badge" style="color: #ef4444;">AUDIT</span>
+          </div>
+          <div class="pipeline-node">
+            <div class="node-num">10</div>
+            <div class="node-title">Delivery</div>
+          </div>
+        </div>
+
+        <!-- The 10 Steps Detailed List -->
+        <div class="ten-steps-list">
+          <!-- Step 1 -->
+          <div class="step-item">
+            <div class="step-index-badge">01</div>
+            <div class="step-content">
+              <h3>Brief.</h3>
+              <p>You give an idea and an audience. The skill pulls out what it is, who it's for, the feeling in the first 3 seconds, the one goal and what it must never look like. It asks at most one question.</p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-item highlight-step">
+            <div class="step-index-badge">02</div>
+            <div class="step-content">
+              <h3>Dice.</h3>
+              <p>A terminal script rolls everything that usually defaults to "safe": which gallery and position to take the seed from, which 3 of 5 things to inherit, background lightness, palette logic, type personality, layout skeleton, a motion signature, an extra constraint and an unrelated "wildcard world" to borrow from. The agent doesn't get to reroll because it dislikes a result.</p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-item">
+            <div class="step-index-badge">03</div>
+            <div class="step-content">
+              <h3>Seed crawl.</h3>
+              <p>The agent opens the picked site like a visitor. It scrolls every page, hovers every interactive thing, and runs small snippets to read the real fonts, colors, CSS variables, keyframes, transitions and scroll settings. It is polite: it reads robots.txt, waits between requests, never logs in and never bypasses a block.</p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="step-item">
+            <div class="step-index-badge">04</div>
+            <div class="step-content">
+              <h3>design.md.</h3>
+              <p>Everything it measured goes into one document: color roles and ratios, type table, layout and spacing, components, a motion catalog (trigger, target, from to, duration, ease), the interaction list, media technique, tech stack, why it works, and a "never copy" list. If something can't be measured, it says so.</p>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="step-item">
+            <div class="step-index-badge">05</div>
+            <div class="step-content">
+              <h3>Reference scan.</h3>
+              <p>Four to six extra sites calibrate its judgment: at least two from unrelated worlds and one weird one. This is how it notices what's overused right now.</p>
+            </div>
+          </div>
+
+          <!-- Step 6 -->
+          <div class="step-item">
+            <div class="step-index-badge">06</div>
+            <div class="step-content">
+              <h3>Concept.</h3>
+              <p>Before any visual decision, the agent writes five big ideas for your site and deletes the first two, because those are the obvious ones. Then it states one sentence: "This site is a ___ that ___." The seed gives craft, never the idea.</p>
+            </div>
+          </div>
+
+          <!-- Step 7 -->
+          <div class="step-item">
+            <div class="step-index-badge">07</div>
+            <div class="step-content">
+              <h3>Direction card and mutation plan.</h3>
+              <p>The dice act as mutation operators. Three anchors from the seed are kept nearly intact (for example motion, type hierarchy and spacing). Everything else must change: layout order, background, palette hues, at least one font in the pairing, and the interactions' look.</p>
+            </div>
+          </div>
+
+          <!-- Step 8 -->
+          <div class="step-item">
+            <div class="step-index-badge">08</div>
+            <div class="step-content">
+              <h3>Clean-room build.</h3>
+              <p>The agent builds from design.md and the tokens, never from the seed's code. It follows the layout skeleton and adds the rolled motion signature. It keeps the first screen to five elements or fewer, bans fake stats, fake clocks and filler labels, and previews in the browser at desktop and mobile widths.</p>
+            </div>
+          </div>
+
+          <!-- Step 9 -->
+          <div class="step-item highlight-step" style="border-color: #ef4444;">
+            <div class="step-index-badge" style="color: #ef4444;">09</div>
+            <div class="step-content">
+              <h3>Gates.</h3>
+              <p style="margin-bottom: 12px;">Three rigorous checks before it ships:</p>
+              <ul style="list-style: square; padding-left: 20px; font-size: var(--text-small); line-height: 1.6; color: var(--color-ink-body);">
+                <li><strong>Similarity gate:</strong> At least 4 of 6 dimensions must clearly differ from the seed (concept, section structure, dominant color, type pairing, media, signature interaction).</li>
+                <li><strong>Slop scan:</strong> A list of first- and second-generation AI design clichés. Each hit costs a point.</li>
+                <li><strong>Parity test:</strong> Your screenshots next to real winners. Could it sit in the same gallery row?</li>
+              </ul>
+              <p style="margin-top: 10px;">Then a score out of 40. Pass means 32 or more, nothing below 3, no slop hits. It gets two revision loops, then reports honestly if it still falls short.</p>
+            </div>
+          </div>
+
+          <!-- Step 10 -->
+          <div class="step-item">
+            <div class="step-index-badge">10</div>
+            <div class="step-content">
+              <h3>Delivery.</h3>
+              <p>You get the site, the design files, the seed credit, the dice results and a list of placeholders to replace.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inherit vs Mutate Table -->
+        <div style="margin: 4.5rem 0 2rem;">
+          <span class="zone-badge"><span class="dot"></span> SEED EVOLUTION</span>
+          <h2 class="text-title-1" style="margin: 0.75rem 0 1.5rem;">Inherit vs Mutate.</h2>
+
+          <div class="outputs-table-wrap">
+            <table class="outputs-table">
+              <thead>
+                <tr>
+                  <th>Always Ours</th>
+                  <th>Inherited from the seed (3 of 5, rolled)</th>
+                  <th>Always Changed</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Concept, copy, media, logo and icons</strong></td>
+                  <td><strong>Motion language, color relationships, type hierarchy, spacing rhythm, interaction mechanics</strong></td>
+                  <td><strong>Section order, background, at least one font, dominant color</strong></td>
+                </tr>
+                <tr>
+                  <td style="color: var(--color-ink-muted);">Drawn strictly from the user's brief, burned ideas, and custom illustrations/schematics.</td>
+                  <td style="color: var(--color-ink-muted);">Exact cubic-bezier values, staggers, and ratio contrasts measured from the seed.</td>
+                  <td style="color: var(--color-ink-muted);">Guarantees the resulting website has a completely independent visual identity.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- "Why Dice?" & "Why Clean Room?" Explainers -->
+        <div class="explainer-pair">
+          <div class="explainer-card">
+            <h3>Why dice?</h3>
+            <p class="text-body">
+              Left alone, models drift toward the most probable choice. Dice make the improbable choice happen. Forced constraints are what make two runs different.
+            </p>
+          </div>
+
+          <div class="explainer-card">
+            <h3>Why a clean room?</h3>
+            <p class="text-body">
+              Ideas and techniques can be learned. Someone else's code, words and images can't be taken. The build step only reads the design document, never the seed's source.
+            </p>
+          </div>
+        </div>
+
+        <!-- CTA Box -->
+        <div style="text-align: center; padding: 3rem 0; border-top: 1px solid var(--color-border);">
+          <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+            <a href="install.html" class="btn btn-primary" style="padding: 13px 28px;">Install Taste Engine</a>
+            <a href="docs.html" class="btn btn-secondary" style="padding: 13px 24px;">Read the docs</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div class="logo-block" style="margin-bottom: 12px;">
+            <div class="interactive-dice-logo">⚄</div>
+            <span>Taste Engine</span>
+          </div>
+          <p class="text-body" style="max-width: 420px; font-size: 0.95rem;">
+            Give your AI agent taste. Stop shipping the average of the internet.
+          </p>
+        </div>
+
+        <div class="footer-note-honesty">
+          <strong>Transparency Notice:</strong> Taste Engine studies public websites for inspiration and never copies their code, text, images or fonts. Seed sites are credited in every project.
+        </div>
+      </div>
+
+      <div class="footer-meta">
+        <span>Taste Engine is a free, open-source agent skill. One text file. No account, no server, no telemetry.</span>
+        <span>•</span>
+        <span><a href="https://github.com/lakshya1282/taste-engine" target="_blank" rel="noopener" style="text-decoration: underline; color: inherit;">GitHub</a></span>
+        <span>•</span>
+        <span><a href="https://instagram.com/web_pros" target="_blank" rel="noopener" style="text-decoration: underline; color: inherit;">@web_pros</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+
